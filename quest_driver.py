@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import re
+import json
 
 
 class QuestDriver:
@@ -8,7 +9,7 @@ class QuestDriver:
         self.quest_file = pd.read_excel(file).set_index(['id'])
         self.buttons = self.quest_file[self.quest_file.columns[
             (np.array(self.quest_file.columns.str.find('Button')) != -1) | (
-                        np.array(self.quest_file.columns.str.find('res')) != -1)]]
+                    np.array(self.quest_file.columns.str.find('res')) != -1)]]
         self.player = player
         self.id = self.player['id']
 
@@ -22,12 +23,10 @@ class QuestDriver:
     def return_text(self, id):
         b = self.quest_file.loc[[id]].dropna(axis=1)['Text'].values.tolist()[0]
         if '{self.player[' in b:
-            print(1)
             val = re.findall('{.*?}', b)
             for k in val:
                 j = eval(k[1:-1])  # супер большая уязвимость, но я хз как иначе форматировать
                 b = b.replace(k, j, 1)
-                print(b)
             return b
         else:
             return self.quest_file.loc[[id]].dropna(axis=1)['Text'].values.tolist()[0]
@@ -36,6 +35,13 @@ class QuestDriver:
         return self.quest_file.loc[[id]]['Image'].values.tolist()[0]
 
     def update(self, id):
+        log_rep = self.quest_file.loc[[self.id]]['Rep_change'].values.tolist()[0]
+        if log_rep == log_rep:
+            log_rep = json.loads(log_rep.strip())
+            way = str(self.return_buttons(self.id)[2].index(id))
+            if way in log_rep.keys():
+                for key in log_rep[way].keys():
+                    self.player[key] += log_rep[way][key]
         id = str(id).split()
         if len(id) == 1:
             self.id = int(float(id[0]))
@@ -46,12 +52,18 @@ class QuestDriver:
                 self.id = int(id[3])
             else:
                 self.id = int(id[4])
+        self.player['id'] = self.id
         return self.show()
 
     def show(self):
         return self.return_text(self.id), self.return_image(self.id), self.return_buttons(self.id)
 
+    def end_of_session(self):
+        return self.player
+
 
 que = QuestDriver(file='Template.xlsx', player={'Name': 'Peter', 'Age': 45, 'id': 1, 'rep_pol': 4})
-print(que.show())
-print(que.update(2.0))
+a = que.update(3.0)
+print(a)
+print(que.update('rep_pol > 5 5 7'))
+print(que.end_of_session())
