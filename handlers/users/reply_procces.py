@@ -28,7 +28,8 @@ def create_keyboard(id, labels, ways):
 @dp.message_handler(Command("start"))
 async def show_items(message: Message):
     msg = await message.answer(
-        text="This is Blade Runner Game by Kirill and Mikhail.", reply_markup=create_keyboard("start", ["Proceed"], ["Proceed"]))
+        text="This is Blade Runner Game by Kirill and Mikhail.",
+        reply_markup=create_keyboard("start", ["Proceed"], ["Proceed"]))
     que = QuestDriver(file='Template.xlsx',
                       player={'Name': 'Peter', 'Age': 45, 'id': 1, 'rep_pol': 4})
     global sessions
@@ -41,4 +42,16 @@ async def sub(call: CallbackQuery):
     global sessions
     que = sessions[call.from_user.id]
     a = que.update(1)
-    await call.message.answer(a[0], reply_markup=create_keyboard("quest 1", a[2][1], a[2][2]))
+    await call.message.answer(a[0], reply_markup=create_keyboard("quest ", a[2][1], a[2][2]))
+    sessions[call.from_user.id] = que
+
+
+@dp.callback_query_handler(text_contains="quest")
+async def sub(call: CallbackQuery):
+    await call.answer(cache_time=60)
+    global sessions
+    que = sessions[call.from_user.id]
+    way = int(call.data.split()[1][1:])
+    a = que.update(way)
+    await call.message.answer(a[0], reply_markup=create_keyboard("quest ", a[2][1], a[2][2]))
+    sessions[call.from_user.id] = que
