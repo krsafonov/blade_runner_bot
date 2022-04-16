@@ -9,25 +9,29 @@ from aiogram.utils.callback_data import CallbackData
 
 from loader import dp
 
+from quest_driver import QuestDriver
+
 dp.message_handler()
 
-latest_msg = {}
 
 def create_keyboard(id, args):
     keyboard = InlineKeyboardMarkup(row_width=2)
-    get_callback = CallbackData("get", "item_name")
 
     for i in range(len(args)):
-        button = InlineKeyboardButton(text=args[i], callback_data=get_callback.new(item_name=f"{id}_{i}"))
+        button = InlineKeyboardButton(text=args[i], callback_data=f"{id}_{args[i]}")
         keyboard.insert(button)
     return keyboard
 
 
-@dp.message_handler(Command("start"))  # made introduction and logic of collecting user's data
+@dp.message_handler(Command("start"))
 async def show_items(message: Message):
     msg = await message.answer(
-        text="This Blade Runner Game by Kirill and Mikhail.", reply_markup=create_keyboard("start", ["Hello", "World"]))
-    global latest_msg
-    latest_msg[message.from_user.id] = msg
+        text="This is Blade Runner Game by Kirill and Mikhail.", reply_markup=create_keyboard("start", ["Proceed"]))
+    que = QuestDriver(file='Template.xlsx',
+                      player={'Name': 'Peter', 'Age': 45, 'id': message.from_user.id, 'rep_pol': 4})
 
 
+@dp.callback_query_handler(text=["start_Proceed"])
+async def sub(call: CallbackQuery):
+    await call.answer(cache_time=60)
+    msg = await call.message.answer("Well Done!")

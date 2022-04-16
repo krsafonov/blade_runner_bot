@@ -62,13 +62,14 @@ class QuestDriver:
         return self.player
 
 
-que = QuestDriver(file='Template.xlsx', player={'Name': 'Peter', 'Age': 45, 'id': 1, 'rep_pol': 4})
-a = que.update(1)
-print(a[0])
-print(a[2][1])
-
-while True:
-    c = int(input())-1
-    a = que.update(a[2][2][c])
+if __name__ == "__main__":
+    que = QuestDriver(file='Template.xlsx', player={'Name': 'Peter', 'Age': 45, 'id': 1, 'rep_pol': 4})
+    a = que.update(1)
     print(a[0])
     print(a[2][1])
+    print(a)
+    while True:
+        c = int(input()) - 1
+        a = que.update(a[2][2][c])
+        print(a[0])
+        print(a[2][1])
