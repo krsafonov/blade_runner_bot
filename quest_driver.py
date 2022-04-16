@@ -67,6 +67,7 @@ if __name__ == "__main__":
     a = que.update(1)
     print(a[0])
     print(a[2][1])
+    print(a[2][2])
     print(a)
     while True:
         c = int(input()) - 1
