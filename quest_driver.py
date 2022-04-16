@@ -5,7 +5,7 @@ import json
 
 
 class QuestDriver:
-    def __init__(self, file: str, player: dict = None):
+    def __init__(self, file: str, player: dict = {'Name': 'Peter', 'Age': 45, 'id': 1, 'rep_pol': 7}):
         self.quest_file = pd.read_excel(file).set_index(['id'])
         self.buttons = self.quest_file[self.quest_file.columns[
             (np.array(self.quest_file.columns.str.find('Button')) != -1) | (
@@ -63,7 +63,12 @@ class QuestDriver:
 
 
 que = QuestDriver(file='Template.xlsx', player={'Name': 'Peter', 'Age': 45, 'id': 1, 'rep_pol': 4})
-a = que.update(3.0)
-print(a)
-print(que.update('rep_pol > 5 5 7'))
-print(que.end_of_session())
+a = que.update(1)
+print(a[0])
+print(a[2][1])
+
+while True:
+    c = int(input())-1
+    a = que.update(a[2][2][c])
+    print(a[0])
+    print(a[2][1])
