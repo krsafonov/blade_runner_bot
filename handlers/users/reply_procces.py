@@ -16,11 +16,21 @@ dp.message_handler()
 sessions = {}
 
 
-def create_keyboard(id, labels, ways):
+def create_keyboard(id, ways):
     keyboard = InlineKeyboardMarkup(row_width=1)
-
-    for i in range(len(labels)):
-        button = InlineKeyboardButton(text=labels[i], callback_data=f"{id}_{ways[i]}")
+    uni_numbers = [
+        "1️⃣",
+        "2️⃣",
+        "3️⃣",
+        "4️⃣",
+        "5️⃣",
+        "6️⃣",
+        "7️⃣",
+        "8️⃣",
+        "9️⃣",
+    ]
+    for i in range(len(ways)):
+        button = InlineKeyboardButton(text=uni_numbers[i], callback_data=f"{id}_{ways[i]}")
         keyboard.insert(button)
     return keyboard
 
@@ -29,7 +39,7 @@ def create_keyboard(id, labels, ways):
 async def show_items(message: Message):
     msg = await message.answer(
         text="This is Blade Runner Game by Kirill and Mikhail.",
-        reply_markup=create_keyboard("start", ["Proceed"], ["Proceed"]))
+        reply_markup=create_keyboard("start", ["Proceed"]))
     que = QuestDriver(file='Template.xlsx',
                       player={'Name': 'Peter', 'Age': 45, 'id': 1, 'rep_pol': 4})
     global sessions
@@ -42,7 +52,7 @@ async def sub(call: CallbackQuery):
     global sessions
     que = sessions[call.from_user.id]
     a = que.update(1)
-    await call.message.answer(a[0], reply_markup=create_keyboard("quest", a[2][1], a[2][2]))
+    await call.message.answer(a[0], reply_markup=create_keyboard("quest", a[2][2]))
     sessions[call.from_user.id] = que
 
 
@@ -56,5 +66,5 @@ async def sub(call: CallbackQuery):
     except ValueError:
         way = call.data[6:]
     a = que.update(way)
-    await call.message.answer(a[0], reply_markup=create_keyboard("quest", a[2][1], a[2][2]))
+    await call.message.answer(a[0], reply_markup=create_keyboard("quest", a[2][2]))
     sessions[call.from_user.id] = que
