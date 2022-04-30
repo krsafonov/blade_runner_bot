@@ -43,7 +43,7 @@ async def show_items(message: Message):
         text="This is Blade Runner Game by Kirill and Mikhail.",
         reply_markup=create_keyboard("start", ["Proceed"]))
     que = QuestDriver(file='Template.xlsx',
-                      player={'Name': 'Peter', 'Age': 45, 'id': 1, 'rep_pol': 4})
+                      player={'Name': message.from_user.first_name, 'Age': 45, 'id': 1, 'rep_pol': 4})
     global sessions
     sessions[message.from_user.id] = que
 
