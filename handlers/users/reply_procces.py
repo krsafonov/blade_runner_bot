@@ -15,20 +15,22 @@ dp.message_handler()
 
 sessions = {}
 
+uni_numbers = [
+    "1️⃣",
+    "2️⃣",
+    "3️⃣",
+    "4️⃣",
+    "5️⃣",
+    "6️⃣",
+    "7️⃣",
+    "8️⃣",
+    "9️⃣",
+]
+
 
 def create_keyboard(id, ways):
-    keyboard = InlineKeyboardMarkup(row_width=1)
-    uni_numbers = [
-        "1️⃣",
-        "2️⃣",
-        "3️⃣",
-        "4️⃣",
-        "5️⃣",
-        "6️⃣",
-        "7️⃣",
-        "8️⃣",
-        "9️⃣",
-    ]
+    keyboard = InlineKeyboardMarkup(row_width=2)
+
     for i in range(len(ways)):
         button = InlineKeyboardButton(text=uni_numbers[i], callback_data=f"{id}_{ways[i]}")
         keyboard.insert(button)
@@ -52,7 +54,8 @@ async def sub(call: CallbackQuery):
     global sessions
     que = sessions[call.from_user.id]
     a = que.update(1)
-    await call.message.answer(a[0], reply_markup=create_keyboard("quest", a[2][2]))
+    msg = a[0]+"\n\n Your options:\n"+"\n".join([uni_numbers[i]+"\t"+j for i, j in enumerate(a[2][1])])
+    await call.message.answer(msg, reply_markup=create_keyboard("quest", a[2][2]))
     sessions[call.from_user.id] = que
 
 
@@ -66,5 +69,6 @@ async def sub(call: CallbackQuery):
     except ValueError:
         way = call.data[6:]
     a = que.update(way)
-    await call.message.answer(a[0], reply_markup=create_keyboard("quest", a[2][2]))
+    msg = a[0] + "\n\n Your options:\n" + "\n".join([uni_numbers[i] + "\t" + j for i, j in enumerate(a[2][1])])
+    await call.message.answer(msg, reply_markup=create_keyboard("quest", a[2][2]))
     sessions[call.from_user.id] = que
