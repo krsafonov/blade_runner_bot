@@ -42,7 +42,7 @@ async def sub(call: CallbackQuery):
     global sessions
     que = sessions[call.from_user.id]
     a = que.update(1)
-    await call.message.answer(a[0], reply_markup=create_keyboard("quest ", a[2][1], a[2][2]))
+    await call.message.answer(a[0], reply_markup=create_keyboard("quest", a[2][1], a[2][2]))
     sessions[call.from_user.id] = que
 
 
@@ -51,7 +51,10 @@ async def sub(call: CallbackQuery):
     await call.answer()
     global sessions
     que = sessions[call.from_user.id]
-    way = call.data.split()[1][1:]
+    try:
+        way = int(float(call.data[6:]))
+    except ValueError:
+        way = call.data[6:]
     a = que.update(way)
-    await call.message.answer(a[0], reply_markup=create_keyboard("quest ", a[2][1], a[2][2]))
+    await call.message.answer(a[0], reply_markup=create_keyboard("quest", a[2][1], a[2][2]))
     sessions[call.from_user.id] = que
