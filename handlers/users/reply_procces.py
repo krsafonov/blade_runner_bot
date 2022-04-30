@@ -38,7 +38,7 @@ async def show_items(message: Message):
 
 @dp.callback_query_handler(text=["start_Proceed"])
 async def sub(call: CallbackQuery):
-    await call.answer(cache_time=60)
+    await call.answer()
     global sessions
     que = sessions[call.from_user.id]
     a = que.update(1)
@@ -48,10 +48,10 @@ async def sub(call: CallbackQuery):
 
 @dp.callback_query_handler(text_contains="quest")
 async def sub(call: CallbackQuery):
-    await call.answer(cache_time=60)
+    await call.answer()
     global sessions
     que = sessions[call.from_user.id]
-    way = int(call.data.split()[1][1:])
+    way = int(float(call.data.split()[1][1:]))
     a = que.update(way)
     await call.message.answer(a[0], reply_markup=create_keyboard("quest ", a[2][1], a[2][2]))
     sessions[call.from_user.id] = que
