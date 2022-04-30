@@ -17,7 +17,7 @@ sessions = {}
 
 
 def create_keyboard(id, labels, ways):
-    keyboard = InlineKeyboardMarkup(row_width=2)
+    keyboard = InlineKeyboardMarkup(row_width=1)
 
     for i in range(len(labels)):
         button = InlineKeyboardButton(text=labels[i], callback_data=f"{id}_{ways[i]}")
@@ -51,7 +51,7 @@ async def sub(call: CallbackQuery):
     await call.answer()
     global sessions
     que = sessions[call.from_user.id]
-    way = int(float(call.data.split()[1][1:]))
+    way = call.data.split()[1][1:]
     a = que.update(way)
     await call.message.answer(a[0], reply_markup=create_keyboard("quest ", a[2][1], a[2][2]))
     sessions[call.from_user.id] = que

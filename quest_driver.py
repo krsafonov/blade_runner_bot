@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import re
 import json
+import ast
 
 
 class QuestDriver:
@@ -41,13 +42,16 @@ class QuestDriver:
             way = str(self.return_buttons(self.id)[2].index(id))
             if way in log_rep.keys():
                 for key in log_rep[way].keys():
-                    self.player[key] += log_rep[way][key]
+                    if key in self.player:
+                        self.player[key] += log_rep[way][key]
+
         id = str(id).split()
         if len(id) == 1:
             self.id = int(float(id[0]))
         else:
             num = str(self.player[id[0]])
             goal = str(id[2])
+            print(num + id[1] + goal)
             if eval(num + id[1] + goal):
                 self.id = int(id[3])
             else:
@@ -71,6 +75,8 @@ if __name__ == "__main__":
     print(a)
     while True:
         c = int(input()) - 1
+        print(a)
         a = que.update(a[2][2][c])
         print(a[0])
         print(a[2][1])
+        print(f"PLAYER {que.player}")
