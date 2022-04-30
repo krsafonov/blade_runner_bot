@@ -39,13 +39,13 @@ def create_keyboard(id, ways):
 
 @dp.message_handler(Command("start"))
 async def show_items(message: Message):
-    msg = await message.answer(
-        text="This is Blade Runner Game by Kirill and Mikhail.",
-        reply_markup=create_keyboard("start", ["Proceed"]))
     que = QuestDriver(file='Template.xlsx',
                       player={'Name': message.from_user.first_name, 'Age': 45, 'id': 1, 'rep_pol': 4})
     global sessions
     sessions[message.from_user.id] = que
+    a = que.update(1)
+    msg = a[0] + "\n\n Your options:\n" + "\n".join([uni_numbers[i] + "\t" + j for i, j in enumerate(a[2][1])])
+    await message.answer(msg, reply_markup=create_keyboard("quest", a[2][2]))
 
 
 @dp.callback_query_handler(text=["start_Proceed"])
