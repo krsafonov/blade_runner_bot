@@ -45,6 +45,8 @@ class QuestDriver:
                 for key in log_rep[way].keys():
                     if key in self.player:
                         self.player[key] += log_rep[way][key]
+                    else:
+                        self.player[key] = log_rep[way][key]
 
         id = str(id).split()
         if len(id) == 1:
@@ -68,12 +70,8 @@ class QuestDriver:
 
 
 if __name__ == "__main__":
-    que = QuestDriver(file='Template.xlsx', player={'Name': 'Peter', 'Age': 45, 'id': 15, 'rep_pol': 4})
-    a = que.update("rep_pol > 5 17 18")
-    print(a[0])
-    print(a[2][1])
-    print(a[2][2])
-    print(a)
+    que = QuestDriver(file='Template.xlsx', player={'Name': 'Peter', 'Age': 45, 'id': 1, 'rep_pol': 4})
+    a = que.update(1)
     while True:
         c = int(input()) - 1
         print(a)
