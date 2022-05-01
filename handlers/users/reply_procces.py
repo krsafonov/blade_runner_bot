@@ -48,17 +48,6 @@ async def show_items(message: Message):
     await message.answer(msg, reply_markup=create_keyboard("quest", a[2][2]))
 
 
-@dp.callback_query_handler(text=["start_Proceed"])
-async def sub(call: CallbackQuery):
-    await call.answer()
-    global sessions
-    que = sessions[call.from_user.id]
-    a = que.update(1)
-    msg = a[0]+"\n\n Your options:\n"+"\n".join([uni_numbers[i]+"\t"+j for i, j in enumerate(a[2][1])])
-    await call.message.answer(msg, reply_markup=create_keyboard("quest", a[2][2]))
-    sessions[call.from_user.id] = que
-
-
 @dp.callback_query_handler(text_contains="quest")
 async def sub(call: CallbackQuery):
     await call.answer()
