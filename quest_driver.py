@@ -37,7 +37,6 @@ class QuestDriver:
 
     def update(self, id):
         log_rep = self.quest_file.loc[[self.id]]['Rep_change'].values.tolist()[0]
-        print(log_rep, self.id)
         if log_rep == log_rep:
             log_rep = json.loads(log_rep.strip())
             way = str(self.return_buttons(self.id)[2].index(id))
@@ -52,7 +51,11 @@ class QuestDriver:
         if len(id) == 1:
             self.id = int(float(id[0]))
         else:
-            num = str(self.player[id[0]])
+            try:
+                num = str(self.player[id[0]])
+            except KeyError:
+                self.player[id[0]] = 0
+                num = str(self.player[id[0]])
             goal = str(id[2])
             print(num + id[1] + goal)
             if eval(num + id[1] + goal):
@@ -70,12 +73,12 @@ class QuestDriver:
 
 
 if __name__ == "__main__":
-    que = QuestDriver(file='Template.xlsx', player={'Name': 'Peter', 'Age': 45, 'id': 49, 'rep_pol': 4, "night_flag":1})
-    a = que.update(49)
+    que = QuestDriver(file='Template.xlsx', player={'Name': 'Kirill', 'Age': 45, 'id': 106, 'rep_pol': 4, "night_flag":1})
+    a = que.update(107)
+    print(a[0])
+    print(a[2][1])
     while True:
         c = int(input()) - 1
-        print(a)
         a = que.update(a[2][2][c])
         print(a[0])
         print(a[2][1])
-        print(f"PLAYER {que.player}")
