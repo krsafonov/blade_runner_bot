@@ -70,8 +70,8 @@ class QuestDriver:
 
 
 if __name__ == "__main__":
-    que = QuestDriver(file='Template.xlsx', player={'Name': 'Peter', 'Age': 45, 'id': 29, 'rep_pol': 4, "night_flag":1})
-    a = que.update(29)
+    que = QuestDriver(file='Template.xlsx', player={'Name': 'Peter', 'Age': 45, 'id': 49, 'rep_pol': 4, "night_flag":1})
+    a = que.update(49)
     while True:
         c = int(input()) - 1
         print(a)
