@@ -40,7 +40,15 @@ def create_keyboard(id, ways):
 @dp.message_handler(Command("start"))
 async def show_items(message: Message):
     que = QuestDriver(file='Template.xlsx',
-                      player={'Name': message.from_user.first_name, 'Age': 45, 'id': 1, 'rep_pol': 4})
+                      player={'Name': message.from_user.first_name,
+                              'Age': 45, 'id': 1,
+                              'rep_pol': 4,
+                              'humanity': 1,
+                              'let_flag': 0,
+                              'drug_flag': 0,
+                              'night_flag': 0,
+                              "photo_flag": 0,
+                              "ars_flag": 0})
     global sessions
     sessions[message.from_user.id] = que
     a = que.update(1)
