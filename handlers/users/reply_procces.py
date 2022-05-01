@@ -48,7 +48,10 @@ async def show_items(message: Message):
                               'drug_flag': 0,
                               'night_flag': 0,
                               "photo_flag": 0,
-                              "ars_flag": 0})
+                              "ars_flag": 0,
+                              "house_flag": 0,
+                              "dev_flag": 0,
+                              "shop_flag": 0})
     global sessions
     sessions[message.from_user.id] = que
     a = que.update(1)
