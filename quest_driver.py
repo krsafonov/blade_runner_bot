@@ -27,7 +27,7 @@ class QuestDriver:
             val = re.findall('{.*?}', b)
             for k in val:
                 j = eval(k[1:-1])  # супер большая уязвимость, но я хз как иначе форматировать
-                b = b.replace(k, j, 1)
+                b = b.replace(k, str(j), 1)
             return b
         else:
             return self.quest_file.loc[[id]].dropna(axis=1)['Text'].values.tolist()[0]
@@ -73,8 +73,8 @@ class QuestDriver:
 
 
 if __name__ == "__main__":
-    que = QuestDriver(file='Template.xlsx', player={'Name': 'Kirill', 'Age': 45, 'id': 141, 'rep_pol': 4, "night_flag":1})
-    a = que.update(142)
+    que = QuestDriver(file='Template.xlsx', player={'Name': 'Kirill', 'Age': 45, 'id': 209, 'rep_pol': 4, "night_flag":1})
+    a = que.update(211)
     print(a[0])
     print(a[2][1])
     while True:
