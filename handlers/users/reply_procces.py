@@ -37,7 +37,7 @@ def create_keyboard(id, ways):
     return keyboard
 
 
-@dp.message_handler(Command("start"))
+@dp.message_handler(Command(["start", "restart"]))
 async def show_items(message: Message):
     que = QuestDriver(file='Template.xlsx',
                       player={'Name': message.from_user.first_name,
