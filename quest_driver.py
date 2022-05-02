@@ -75,7 +75,7 @@ class QuestDriver:
 
 
 if __name__ == "__main__":
-    que = QuestDriver(file='Template.xlsx', player={'Name': 'Kirill', 'Age': 45, 'id': 1, 'rep_pol': 4, "night_flag":1})
+    que = QuestDriver(file='Template.xlsx', player={'Name': 'Kirill', 'Age': 45, 'id': 48, 'rep_pol': 4, "night_flag":1})
     a = que.show()
     print(a[0])
     print(a[2][1])
